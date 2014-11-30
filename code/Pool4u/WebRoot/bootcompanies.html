@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+<title>Pool4u.in</title>
+<link rel="stylesheet" href="js/boot/bootstrap.min.css">
+<link href="style/default.css" rel="stylesheet" type="text/css" />
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="./js/profile.js"></script>
+<script src="./js/boot/bootstrap-dropdown.js"></script>
+
+<script>
+	$(document).ready(function() {
+		getMyPrefernces();	
+		$(":button#updateAtoR").click(function(){updateAllowedCompanies("R");});
+		$(":button#updateRtoA").click(function(){updateAllowedCompanies("A");});
+	});
+</script>
+
+
+</head>
+<body>
+	<div class="topbar" data-dropdown="dropdown">
+		<div class="fill">
+			<div class="container">
+				<a class="brand" href="#"><font style="color: #FFFFFF;">Pool</font><span
+					class="logo_colour">4</span>U.in </a>
+				<div class="pull-right">
+					<ul class="nav">
+						<li><a href="#">Search Ride</a></li>
+						<li><a href="#about">Post Ride</a></li>
+						<li class="dropdown active"><a class="dropdown-toggle"
+							href="#">My Account</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Secondary link</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li class="divider"></li>
+								<li><a> <!-- data-controls-modal="logout-modal" data-keyboard="true"
+									data-backdrop="true" -->Logout</a></li>
+							</ul></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<section>
+			<div class="container-fluid" style="padding-left: 0px;">
+				<div class="page-header">
+					<h1>
+						Company Selection <small>Manage your Company settings</small>
+					</h1>
+				</div>
+			</div>
+		</section>
+		<div id="allowed_companies">
+		<section>
+			<h6 style="color:#ddd">Allowed Companies</h6>
+		</section>
+		<form>
+		<section class="well">
+				<div id="allowed_company_list">
+<!-- 				<div class="row">
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Infosys Technologies Ltd.</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>Cognizant</span>
+					</div>
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Wipro</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>PubMatic</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Infosys Technologies Ltd.</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>Cognizant</span>
+					</div>
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Wipro</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>PubMatic</span>
+					</div>
+				</div> -->
+				</div>
+		</section>
+		<section>
+				<p style="margin-top: 20px;">
+					<button class="btn primary" id="updateAtoR"">Remove Selected Companies</button>
+				</p>		
+		</section>
+		</form>
+		</div>
+		<div id="other_companies">
+		<section>
+			<h6 style="color:#ddd">Companies to select from</h6>
+		</section>
+		<form>
+		<section class="well">
+				<div id="vicinity_company_list">
+				<!-- <div class="row">
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Infosys Technologies Ltd.</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>Cognizant</span>
+					</div>
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Wipro</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>PubMatic</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Infosys Technologies Ltd.</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>Cognizant</span>
+					</div>
+					<div class="span4">
+						<input id="return-chkbox" type="checkbox"> <span>Wipro</span>
+					</div>
+					<div class="span3">
+						<input id="return-chkbox" type="checkbox"> <span>PubMatic</span>
+					</div>
+				</div> -->
+				</div>
+		</section>
+		<section>
+				<p style="margin-top: 20px;">
+					<button class="btn secondary" id="updateRtoA">Add to Allowed Companies</button>
+				</p>
+		</section>
+		</form>
+		</div>
+	</div>
+
+	<footer class="footer"> </footer>
+</body>
+</html>

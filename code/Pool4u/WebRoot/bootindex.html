@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pool4u.in</title>
+<link rel="stylesheet" href="js/boot/bootstrap.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="./js/boot/bootstrap-dropdown.js"></script>
+<script src="./js/boot/bootstrap-modal.js"></script>
+<script src="./js/boot/bootstrap-scrollspy.js"></script>
+<script src="./js/boot/bootstrap-tabs.js"></script>
+<script src="./js/json_parse.js"></script>
+<script src="./js/user_login.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#my-modal').modal('hide');
+		$('.tabs').tabs();
+		
+		// To perform user login
+		$("#login").click(function(){user_login();});
+		
+		// To perform user registration
+		$(":button#register").click(function(){user_register();});
+		
+	//	$('#auth_code_submit').click(function(){authorize_code("register");});
+	});
+</script>
+
+
+</head>
+<body>
+
+	<div class="topbar" data-dropdown="dropdown">
+		<div class="fill">
+			<div class="container">
+				<a class="brand" href="#"><span class="logo_text">Pool4U.in</span>
+					</a>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="container-fluid">
+			<div class="sidebar_custom_index">
+				<section>
+					<form>
+						<fieldset>
+								<legend>Quick Ride Search</legend>
+								<div class="clearfix">
+									<label for="xlInput">From</label>
+									<div class="input">
+										<input id="xlInput" class="xlarge-custom" type="text" size="10" name="from">
+									</div>
+									<label for="password">To</label>
+									<div class="input">
+										<input id="xlInput" class="xlarge-custom" type="text" size="10" name="to">
+									</div>
+									<label for="when">When</label>
+									<div class="input">
+										<input id="xlInput" class="xlarge-custom" type="text" size="10" name="when">
+									</div>
+									<div class="input">
+          							<button id="btn" class="btn large-custom-login info" type="submit">Search Ride</button>
+									</div>
+								</div>
+							</fieldset>
+					</form>
+				</section>
+
+			</div>
+			<div class="content_custom_index">
+
+				<!--  Creating custom tabs here -->
+				<ul class="tabs">
+					<li class="active"><a href="#login">Login</a></li>
+					<li><a href="#register">Register</a></li>
+				</ul>
+
+				<!-- Tab Contents here -->
+				<div class="pill-content">
+					<div class="active" id="">
+						<form class="form-stacked">
+								<div class="clearfix">
+									<label for="xlInput">Username</label>
+									<div class="input">
+										<input id="loginName" class="xlarge" type="text" size="10" name="loginName">
+									</div>
+										<label for="password">Password</label>
+									<div class="input">
+										<input id="loginPassword" class="xlarge" type="password" size="10" name="loginPassword">
+									</div>
+									<div class="input">
+									<label for="btn">&nbsp;</label>
+          							<button id="login" class="btn large-custom-login" type="button">Login</button>
+									</div>
+									<label for="btn">&nbsp;</label>
+									<a href="#" data-controls-modal="forgot-password-modal" data-keyboard="true"
+									data-backdrop="true">Forgot Password</a><strong>&nbsp;/&nbsp;</strong>
+									<a href="#" data-controls-modal="authorize-modal" data-keyboard="true"
+									data-backdrop="true">Authorize Account</a>
+								</div>
+						</form>
+
+					</div>
+					<div id="register">
+						<form class="form-stacked">
+								<div class="clearfix">
+									<label for="xlInput">Username</label>
+									<div class="input">
+										<input id="xlInput" class="xlarge" type="text" size="10" name="xlInput">
+									</div>
+									<label for="comp_select">Company</label>
+									<div class="input">
+									<select id="stackedSelect large" name="comp_select">
+						              <option>Infosys Technologies Ltd.</option>
+						              <option>Cognizant</option>
+						              <option>3</option>
+						              <option>4</option>
+						              <option>5</option>
+						            </select>
+									</div>
+									<label for="password">Password</label>
+									<div class="input">
+										<input id="xlInput" class="xlarge" type="password" size="10" name="password">
+									</div>
+									<label for="confirmPass">Confirm Password</label>
+									<div class="input">
+										<input id="xlInput" class="xlarge" type="password" size="10" name="confirmPass">
+									</div>
+									<label for="displayName">Confirm Password</label>
+									<div class="input">
+										<input id="xlInput" class="xlarge" type="password" size="10" name="displayName">
+									</div>
+									<div class="input">
+									<label for="btn">&nbsp;</label>
+          							<button id="btn" class="btn large-custom-login" type="submit">Register</button>
+									</div>
+								</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+
+				<ul class="media-grid">
+					<li><a href="#"> <img class="thumbnail"
+							src="http://placehold.it/960x400" alt="Slide show here"> </a></li>
+				</ul>
+
+	</div>
+	
+	<footer class="footer">
+		<div class="container">
+
+				<ul class="nav">
+						<li class="dropdown"><a class="dropdown-toggle" href="#">Options</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Vendor Login</a></li>
+								<li><a href="#">Admin Login</a></li>
+							</ul></li>
+					</ul>
+
+		</div>
+	</footer>
+	
+	
+	<!-- All the additional data here -->
+	
+	<!-- The forgot password and authorization code here -->
+	<div id="forgot-password-modal" class="modal hide fade in">
+		<div class="modal-header">
+			<a href="#" class="close">×</a>
+			<h3>Forgot Password ?</h3>
+		</div>
+		<div class="modal-body">
+			<p>The password will be sent to your registered email id, click to continue.</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn success">Send Password</a> <a
+				data-controls-modal="forgot-password-modal" href="#" class="btn secondary">Cancel</a>
+		</div>
+	</div>
+	
+	<div id="authorize-modal" class="modal hide fade in">
+		<form>
+		<div class="modal-header">
+			<a href="#" class="close">×</a>
+			<h3>Authorize your account</h3>
+		</div>
+		<div class="modal-body">
+			<label for="authCode">Authorization Code</label>
+			<div class="input">
+				<input id="auth_code" class="xlarge" type="text" size="10" name="auth_code">
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn success" id="auth_code_submit">Confirm Registration</a> <a
+				data-controls-modal="authorize-modal" href="#" class="btn secondary">Cancel</a>
+		</div>
+		</form>
+	</div>
+	
+</body>
+</html>

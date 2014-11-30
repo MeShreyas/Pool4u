@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Pool4u.in</title>
+<meta name="description" content="website description" />
+<meta name="keywords" content="website keywords, website keywords" />
+<meta http-equiv="content-type"
+	content="text/html; charset=windows-1252" />
+<link rel="stylesheet" type="text/css" href="style/style.css"
+	title="style" />
+</head>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/json_parse.js"></script>
+<script type="text/javascript" src="js/user_login.js"></script>
+<script type="text/javascript" src="js/layout.js"></script>
+
+
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		// Load menu bar
+		fetchMenuBar(1);
+		
+		// Hide the register div on load.
+		$("#register_div").hide();
+		$("#authorization_box_login").hide();
+		
+		// Option to navigate between login and register
+		$("#login_span").click(hide_register);
+		$("#register_span").click(hide_login);
+		
+		// Change cursor to pointer
+		$("#login_span,#register_span").hover(function() {
+			$(this).css('cursor','pointer');
+		}, function() {
+			$(this).css('cursor','auto');
+		});
+		
+		// To perform user login
+		$(":button#login").click(function(){user_login();});
+		
+		// To perform user registration
+		$(":button#register").click(function(){user_register();});
+
+		// To perform authorization from login
+ 		$("#authorization_box_login :button").click(function(){authorize_code("login");});
+		
+		// To perform authorization from register
+ 		$("#authorization_box_register :button").click(function(){authorize_code("register");});
+		
+	});
+
+</script>
+
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+				<div id="logo_text">
+					<!-- class="logo_colour", allows you to change the colour of the text -->
+					<h1>
+						<a href="index.html">Pool<span class="logo_colour">4</span>U</a>
+					</h1>
+					<h2>It's always good to share</h2>
+				</div>
+			</div>
+			<div id="menubar"></div>
+		</div>
+		<div id="site_content">
+			<!-- insert your sidebar items here -->
+			<div class="sidebar">
+				<div id="register_div">
+					<b><span id="login_span">Click here to Login</span></b>
+					<h2>Register</h2>
+					</center>
+					<form name="register">
+						<div class="form_settings" id="register_base">
+						<p><div id="register_error_message"/></div></p>
+							<p>
+								<span>Username</span><input class="contact" type="textbox"
+									name="username" id="userName" />
+							</p>
+							<p>
+								<span>Company</span><select id="company" class="contact" name="company" id="company"></select>
+							</p>
+							<p>
+								<span>Password</span><input class="contact" type="password"
+									name="password" id="password"/>
+							</p>
+							<p>
+								<span>Confirm Password</span><input class="contact" type="password"
+									type="confirmPassword" name="cpassword" id="cpassword"/>
+							</p>
+							<p>
+								<span>Display Name</span><input class="contact" type="textbox"
+									name="displayName" id="dName" onblur="checkAvailability()"/>
+							</p>
+							<p>
+								<span>First Name</span><input class="contact" type="textbox"
+									name="firstName" id="firstName" />
+							</p>
+							<p>
+								<span>Gender</span><br><input class="contact" type="radio"
+									name="gender" value="M" checked id="genderM"/>&nbsp;Male&nbsp;&nbsp;<input class="contact" type="radio"
+									name="gender" value="F" id="genderF"/>&nbsp;Female
+							</p>
+							<p>
+								<input type = "hidden" name = "role" value = "1" id = "role" />
+								<span>&nbsp;</span><input class="contact" type="button"
+									name="register" value="Register" id="register"/>
+							</p>
+						</div>
+						<div id="authorization_box_register" class="form_settings">
+						
+							<p><span>Enter Authorization code</span>
+								<input type="textbox" class="contact" name="auth_code" id="auth_code"/>
+							</p>
+							<p><span><div id="auth_error"></div></span>
+								<input type="button" class="contact" id="auth_code_submit" value="Confirm Registration"/>
+							</p>						
+						</div>
+					</form>
+				</div>
+				<div id="login_div">
+					<b><span id="register_span">Click here to Register</span></b>				
+					<h2>Login</h2>
+					<form name="login">
+						<div class="form_settings" id="login_base">
+							<p><div id="error_message"/></div></p>
+							<p>
+								<span>Username</span><input class="contact" type="textbox"
+									name="loginName" id = "loginName"/>
+							</p>
+							<p>
+								<span>Password</span><input class="contact" type="password"
+									name="loginPassword" id = "loginPassword"/>
+							</p>
+							<p>
+								<span>&nbsp;</span><input class="contact" type="button"
+									name="login" value="Login" id="login" />
+							</p>
+						</div>
+						<div id="authorization_box_login" class="form_settings">
+						<p><span><div id="login_auth_error"></div></span>
+							<p><span>Enter Authorization code</span>
+								<input type="textbox" class="contact" name="auth_code" id="login_auth_code"/>
+							</p>
+							<p><span></span>
+								<input type="button" class="contact" id="auth_code_submit" value="Confirm Registration"/>
+							</p>						
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div id="content">
+				<!-- insert the page content here -->
+				<h1>Welcome to Pool4U</h1>
+				<p>
+					This standards compliant, simple, fixed width website template is
+					released as an 'open source' design (under a <a
+						href="http://creativecommons.org/licenses/by/3.0">Creative
+						Commons Attribution 3.0 Licence</a>), which means that you are free to
+					download and use it for anything you want (including modifying and
+					amending it). All I ask is that you leave the 'design from
+					HTML5webtemplates.co.uk' link in the footer of the template, but
+					other than that...
+				</p>
+				
+			</div>
+		</div>
+		<div id="content_footer"></div>
+		<div id="footer">
+			Copyright &copy; colour_green | <a
+				href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a
+				href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a
+				href="http://www.html5webtemplates.co.uk">design from
+				HTML5webtemplates.co.uk</a>
+		</div>
+	</div>
+	<div style="text-align: center; font-size: 0.75em;">
+		Design downloaded from <a href="http://www.freewebtemplates.com/">free
+			website templates</a>.
+	</div>
+	</form>
+</body>
+</html>

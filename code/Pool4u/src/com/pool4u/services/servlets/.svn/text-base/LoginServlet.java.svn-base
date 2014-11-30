@@ -1,0 +1,208 @@
+package com.pool4u.services.servlets;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.pool4u.services.session.SessionManager;
+
+/**
+ * Servlet implementation class LoginServlet
+ */
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoginServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(request,response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		int option = Integer.parseInt(request.getParameter("option"));
+		
+		
+		// This is the main method for switching between different operation possible using this servlet
+		switch (option)
+		{
+			case 1:
+					// Responsible for a fresh login
+					createNewLogin(request,response);
+					break;
+			case 2:
+					// Logout a user
+					logoutUser(request,response);
+					break;
+			case 3:
+					// Register a new user
+					registerUser(request,response);
+					break;
+			case 4:
+					// Forgot password
+					forgotPassword(request,response);
+					break;
+			case 5:
+					// Update the confirmation code
+					updateConfirmationCode(request,response);
+					break;
+			default:
+					// If a unknown request comes into the system
+					SessionManager.invalidateSession(request);
+					response.getWriter().println("Invalid request");					
+					
+		}
+		
+	}
+	
+
+	private void forgotPassword(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * This method is used for updating the confirmation code in all cases
+	 * 1. New User Registration
+	 * 2. Complete user registration at the time of login
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	private void updateConfirmationCode(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		String resp = "{\"status\":\"FAILURE\",\"errorCode\":3}";
+		response.setContentType("application/json");
+		response.getWriter().print(resp);
+
+/*		if(SessionManager.isSessionValid(request))
+		{
+			String confirmationCode = request.getParameter("confirmCode").trim();
+			AccountCreationDAO account = new AccountCreationDAO();
+			UserCreds userCreds = account.getCredsForUser();
+			
+			if(userCreds.getAutoCode().equalsIgnoreCase(confirmationCode))
+			{
+				if(userCreds.updateConfirmationCode())
+				{
+					response.getWriter().print("<xml><data><status>Success</status><url></url></data>");
+				}				
+			}
+		}
+		else
+		{
+			SessionManager.invalidateSession(request);
+			response.getWriter().print("Invalid session error");
+		}		*/
+	}
+
+	/**
+	 * This method is used for user registration
+	 * Takes input - UserName, Password(After encryption) and company
+	 * @param request
+	 * @param response
+	 */
+	private void registerUser(HttpServletRequest request,
+			HttpServletResponse response) {
+
+/*		String username = request.getParameter("username").trim();
+		String password = request.getParameter("password").trim();
+		String company = request.getParameter("company").trim();
+		
+		AccountCreationDAO account = new AccountCreationDAO();
+		UserCreds userCreds = account.createAccountForUser(username,password,company);
+		
+		SessionManager.createNewSession(request,userCreds.getUserName());
+		
+		MailManager.sendNewUserCreationMail(username,company);
+		
+		response.getWriter().print("<xml><data><status>failure</status><reason>1</reason><url></url></data>");		*/	
+	}
+
+	
+	/**
+	 * This method is used for logout
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	private void logoutUser(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+
+		SessionManager.invalidateSession(request);
+		response.getWriter().print("<xml><data><status>Success</status><url></url></data>");		
+	}
+
+	
+	/**
+	 * This method is used for creating a fresh login into the system
+	 * @param request
+	 * @param response
+	 */
+	private void createNewLogin(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// This servlet is responsible for checking the login and sending back the new code for confirmation
+		
+		String username = request.getParameter("username").trim();
+		String password = request.getParameter("password").trim();
+		String company = request.getParameter("company").trim();
+		
+		// Encrypt and check with database here
+		
+/*		LoginCredentialsDAO loginCreds = new  LoginCredentialsDAO();
+		UserCreds userCreds = loginCreds.fetchCredsForUser(username);
+		
+		if(!userCreds.isConfirmed())
+		{
+			// Return a confirmation box code here
+			SessionManager.createNewSession(request,userCreds.getUserName());
+			
+			MailManager.sendNewUserCreationMail(username,company);
+			
+			response.getWriter().print("<xml><data><status>failure</status><reason>1</reason><url></url></data>");
+		}
+		else
+		{
+			if(userCreds.getLoginCount()<3)
+			{
+				if(username.equalsIgnoreCase(userCreds.getUserName()) 
+						&& password.equals(userCreds.getPassword()))
+				{
+					// Return a success here. Also set the server side server object here
+					SessionManager.createNewSession(request);
+					// Return redirect XML here
+					response.getWriter().print("<xml><data><status>Success</status><url></url></data>");
+				}
+				else
+				{
+					SessionManager.invalidateSession(request);
+					loginCreds.updateLoginCount(username,userCreds.getLoginCount()+1);
+					response.getWriter().print("<xml><data><status>failure</status><reason>0</reason></data>");
+				}
+			}
+			else
+			{
+				SessionManager.invalidateSession(request);
+				response.getWriter().print("<xml><data><status>failure</status><reason>2</reason></data>");
+			}
+		}	*/			
+	}
+}

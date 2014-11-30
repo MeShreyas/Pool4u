@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+    
+	<persistence-unit name="Pool4uPU"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.carpool.entities.ConfingParam</class>
+		<class>com.carpool.entities.FriendMapping</class>
+		<class>com.carpool.entities.Activity</class>
+		<class>com.carpool.entities.UserActivity</class>
+		<class>com.carpool.entities.Vendor</class>
+		<class>com.carpool.entities.UserData</class>
+		<class>com.carpool.entities.Area</class>
+		<class>com.carpool.entities.Device</class>
+		<class>com.carpool.entities.IndustrySector</class>
+		<class>com.carpool.entities.City</class>
+		<class>com.carpool.entities.AlertDelivery</class>
+		<class>com.carpool.entities.PoolUserMap</class>
+		<class>com.carpool.entities.UserType</class>
+		<class>com.carpool.entities.UserAllowedCompanies</class>
+		<class>com.carpool.entities.AlertHistory</class>
+		<class>com.carpool.entities.Pool</class>
+		<class>com.carpool.entities.NotificationType</class>
+		<class>com.carpool.entities.Routes</class>
+		<class>com.carpool.entities.Company</class>
+		<class>com.carpool.entities.UserCredentials</class>
+		<class>com.carpool.entities.UserStats</class>
+		<class>com.carpool.entities.Suggestions</class>
+		<class>com.carpool.entities.State</class>
+		<class>com.carpool.entities.NotificationEvents</class>
+		<class>com.carpool.entities.UserLogin</class>
+		<class>com.carpool.entities.UserNotification</class>
+		<class>com.carpool.entities.FriendMappingId</class>
+		<class>com.carpool.entities.UserActivityId</class>
+		<class>com.carpool.entities.PoolUserMapId</class>
+		<class>com.carpool.entities.UserAllowedCompaniesId</class>
+		<properties>
+			<property name="hibernate.connection.driver_class"
+				value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url"
+				value="jdbc:mysql://localhost:3306/carpool" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password"
+				value="CTRyEdgMC93g/kzt42FMqQ==" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

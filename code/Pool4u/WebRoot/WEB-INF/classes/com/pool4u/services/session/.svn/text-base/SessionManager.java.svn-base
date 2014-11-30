@@ -1,0 +1,62 @@
+package com.pool4u.services.session;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+
+public class SessionManager {
+	
+	public static boolean createNewSession(HttpServletRequest request,String username)
+	{
+		HttpSession session = request.getSession(true);
+		
+		session.setMaxInactiveInterval(60*60);
+		
+		session.setAttribute("userId", username);
+		session.setAttribute("sessionId", session.getId());
+		
+		return true;
+	}
+		
+	public static boolean isSessionValid(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession(false);
+		
+		if(session == null)
+		{
+			return false;
+		}
+		
+		String requestSessionId = session.getId();
+		String sessionId = (String)session.getAttribute("sessionId");
+		
+		if(sessionId!=null && sessionId.trim().length() > 0)
+		{
+			if(sessionId.trim().equalsIgnoreCase(requestSessionId))
+			{
+				return true;
+			}
+		}		
+		return false;		
+	}
+	
+	public static void invalidateSession(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession(false);
+		
+		if(session == null)
+		{
+			return;
+		}
+		
+		session.invalidate();
+	}
+
+	public static String fetchUser(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		
+		return (String)request.getAttribute("username");
+	}
+	
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>Pool4u</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <description></description>
+    <display-name>CodeFillerServlet</display-name>
+    <servlet-name>CodeFillerServlet</servlet-name>
+    <servlet-class>com.pool4u.services.servlets.CodeFillerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CodeFillerServlet</servlet-name>
+    <url-pattern>/CodeFillerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+		<description>
+		</description>
+		<display-name>MyDispatcherServlet</display-name>
+		<servlet-name>MyDispatcherServlet</servlet-name>
+		<servlet-class>
+		com.carpool.servlets.DispatcherServlet</servlet-class>
+	</servlet>
+<servlet-mapping>
+		<servlet-name>MyDispatcherServlet</servlet-name>
+		<url-pattern>/DispatcherServlet</url-pattern>
+	</servlet-mapping>
+</web-app>

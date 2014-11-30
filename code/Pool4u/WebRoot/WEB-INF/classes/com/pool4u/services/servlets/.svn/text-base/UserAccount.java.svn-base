@@ -1,0 +1,74 @@
+package com.pool4u.services.servlets;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.pool4u.services.session.SessionManager;
+
+/**
+ * Servlet implementation class UserAccount
+ */
+public class UserAccount extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UserAccount() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(request,response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		if(!SessionManager.isSessionValid(request))
+		{
+			return;
+		}
+		
+		int option = Integer.parseInt(request.getParameter("option"));
+		
+		switch(option)
+		{
+			case 1:
+					// This option will give me user details
+					fetchUserAccountData(request,response);
+					break;
+			case 2:
+					// This option will give me registered companies data				
+					fetchUserAllowedCompanies(request,response);
+					break;
+			case 3:
+					// This option fetches all other related companies				
+					fetchAllOtherCompanies(request,response);
+					break;
+			case 4:
+					// This option updates user account data like 
+					//	1. Display name
+					//	2. Phone Number
+					//	3. Car Details				
+					updateUserAccountData(request,response);
+			case 5:
+					updateUserAllowedCompanies(request,response);			
+			default :
+					SessionManager.invalidateSession(request);
+		}
+		
+	}
+
+}

@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+<title>Pool4u.in</title>
+<link rel="stylesheet" href="js/boot/bootstrap.min.css">
+<link href="style/default.css" rel="stylesheet" type="text/css" />
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/south-street/jquery-ui.css" rel="stylesheet"/>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script src="./js/boot/bootstrap-dropdown.js"></script>
+<script src="./js/json_parse.js"></script>
+<script src="./js/offer_pool.js"></script>
+
+
+
+<script>
+	$(document).ready(function() {
+		
+		var mapInit=0;
+		var myMap;
+		var fromMarker=null;
+		var toMarker=null;
+		var fromPlace;
+		var toPlace;
+		var latlng;
+		var start='images/car.png';
+		var end='images/finish.png';
+		var mapBounds=new google.maps.LatLngBounds();;
+
+		
+		//Init the google map first
+		latlng = new google.maps.LatLng(18.5333, 73.8667);
+			var myOptions = {
+				zoom : 12,
+				center : latlng,
+				mapTypeControl :false,
+				mapTypeId : google.maps.MapTypeId.ROADMAP
+			};
+			
+		myMap = new google.maps.Map(document.getElementById("google_map"),myOptions);
+		
+		var fromPlace = document.getElementById("from");
+		var toPlace = document.getElementById("to");
+		
+		var autocompleteFrom = new google.maps.places.Autocomplete(fromPlace);
+		var autocompleteTo = new google.maps.places.Autocomplete(toPlace);
+		
+		google.maps.event.addListener(autocompleteFrom, 'place_changed', function(){
+			fromPlace=autocompleteFrom.getPlace();			
+			if(fromMarker!=null)
+			{
+				fromMarker.setPosition(fromPlace.geometry.location);
+			}
+			else
+				fromMarker = new google.maps.Marker({position:fromPlace.geometry.location,draggable : false,map : myMap,icon: start});
+			
+			mapBounds.extend(fromPlace.geometry.location);
+			myMap.fitBounds(mapBounds);
+			myMap.setZoom(12);
+			$("#from-hidden").val(fromPlace.geometry.location);
+		});
+		
+		google.maps.event.addListener(autocompleteTo, 'place_changed',function(){
+			toPlace=autocompleteTo.getPlace();
+			if(toMarker!=null)
+			{
+				toMarker.setPosition(toPlace.geometry.location);
+			}
+			else
+				toMarker = new google.maps.Marker({position:toPlace.geometry.location,draggable : false,map : myMap,icon: end});
+			
+			mapBounds.extend(toPlace.geometry.location);
+			myMap.fitBounds(mapBounds);
+			
+			$("#to-hidden").val(toPlace.geometry.location);
+			
+		});
+		
+				
+		//Date field here
+		var whenAttached=0;
+		$("#when").focus(function(){
+			if(whenAttached==0)
+			{
+				$("#when").datepicker();
+				whenAttached=1;
+				$("#when").focus();
+			}
+			
+		});
+		
+		var returnAttached=0;
+		$("#return").focus(function(){
+			if(returnAttached==0)
+			{
+				$("#return").datepicker();
+				returnAttached=1;
+				$("#return").focus();
+			}
+		});
+		
+		
+		//Clear Cached values
+		$("#from-hidden").val('');
+		$("#to-hidden").val('');
+		
+		//Hidding business here
+		$("#return-div").hide();
+		
+		$("#return-chkbox").change(function()
+		{
+			if($('#return-chkbox').is(':checked'))
+				$("#return-div").show();
+			else
+				$("#return-div").hide();
+				
+		});
+		
+		$(":button#offerRide").click(function(){offerARide();});
+
+		load_init_data();
+
+	});
+
+</script>
+
+<style>
+
+	#google_map{
+		margin-top:45px;
+		width:350px;
+		height:350px;
+	}
+</style>
+</head>
+<body>
+	<div class="topbar" data-dropdown="dropdown">
+		<div class="fill">
+			<div class="container">
+				<a class="brand" href="#"><font style="color: #FFFFFF;">Pool</font><span
+					class="logo_colour">4</span>U.in </a>
+				<div class="pull-right">
+					<ul class="nav">
+						<li><a href="#">Search Ride</a>
+						</li>
+						<li class="active"><a href="#about">Post Ride</a>
+						</li>
+						<li class="dropdown"><a class="dropdown-toggle" href="#">My
+								Account</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Secondary link</a>
+								</li>
+								<li><a href="#">Something else here</a>
+								</li>
+								<li class="divider"></li>
+								<li><a>
+										<!-- data-controls-modal="logout-modal" data-keyboard="true"
+									data-backdrop="true" -->Logout</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="container-fluid">
+			<div class="page-header">
+				<h1>
+					Post a Ride <small>Fill in your ride details</small>
+				</h1>
+			</div>
+			<div class="sidebar_custom_index">
+				<section>
+					<form>
+						<fieldset>
+							<label for="xlInput">From</label>
+							<div class="input">
+								<input id="from" class="xlarge-custom" type="text" size="10" name="from" value="" placeholder="Starting Destination"/>
+								<input id="from-hidden" name="from-hidden" type="hidden" value=""/><br>
+							</div>
+
+							<label for="password">To</label>
+							<div class="input">
+								<input id="to" class="xlarge-custom" type="text" size="10"	name="to" value="" placeholder="Ending Destination"/>
+								<input id="to-hidden" name="to-hidden" type="hidden" value=""/><br>
+							</div>
+
+							<label for="seatSelect">Seats</label>
+							<div class="input">
+								<select class="xlarge-custom" name="seatSelect" id="seatsAvbl">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3" selected>3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+							</div>
+							<label for="when">When</label>
+							<div class="input">
+								<input id="when" type="text" class="small-custom">&nbsp;@&nbsp;
+									<input id="when-time" type="text" class="mini-custom">
+									<span class="help-inline error"> 
+										<input id="return-chkbox" type="checkbox"><span>Return ride </span> 
+									</span>
+							</div>
+
+							<div id="return-div">
+								<label for="return">Return</label>
+								<div class="input">
+									<input id="return" type="text" class="small-custom">&nbsp;@&nbsp;
+									<input id="return-time" type="text" value="12:00am" class="mini-custom">
+								</div>
+							</div>
+							
+							<label for="contrib">Contribution</label>
+							<div class="input">
+								<input id="contribution" class="xlarge-custom" type="text" size="10" name="to" value=""/>
+							</div>
+
+							<label for="filters">Filters</label>
+							<div class="input" id="poolFilters">
+								<!-- <div class="row">
+									<div class="span3">
+										<input type="checkbox"> <span>
+											Smoking </span>
+									</div>
+									<div class="span3">
+										<input type="checkbox"> <span>
+											Women Only </span>
+									</div>
+								</div> -->
+							</div>
+							<div class="actions-custom">
+								<button id="offerRide" class="btn large-custom-login" type="button">Post
+									Ride</button>
+							</div>
+
+						</fieldset>
+					</form>
+				</section>
+			</div>
+			<div class="content_custom_index">
+				<div id="google_map"></div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer">
+	</footer>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+<title>Pool4u.in</title>
+<link rel="stylesheet" href="js/boot/bootstrap.min.css">
+<link href="style/default.css" rel="stylesheet" type="text/css" />
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/south-street/jquery-ui.css" rel="stylesheet" />
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script src="./js/boot/bootstrap-dropdown.js"></script>
+<script src="./js/json_parse.js"></script>
+<script src="./js/offer_pool.js"></script>
+<script src="./js/display_search_pool.js"></script>
+
+
+
+<script>
+	$(document).ready(function() {
+		
+		var mapInit=0;
+		var myMap;
+		var fromMarker=null;
+		var toMarker=null;
+		var fromPlace;
+		var toPlace;
+		var latlng;
+		var start='images/car.png';
+		var end='images/finish.png';
+		var mapBounds=new google.maps.LatLngBounds();;
+
+		var defaultBounds = new google.maps.LatLngBounds(
+				  new google.maps.LatLng(8.407168,68.540037),
+				  new google.maps.LatLng(33.358062,89.897459));
+
+		var options= {bounds:defaultBounds};
+		
+		//Init the google map first
+		latlng = new google.maps.LatLng(18.5333, 73.8667);
+			var myOptions = {
+				zoom : 12,
+				center : latlng,
+				mapTypeControl :false,
+				mapTypeId : google.maps.MapTypeId.ROADMAP
+			};
+			
+		myMap = new google.maps.Map(document.getElementById("google_map"),myOptions);
+		
+		var fromPlace = document.getElementById("from");
+		var toPlace = document.getElementById("to");
+		
+		var autocompleteFrom = new google.maps.places.Autocomplete(fromPlace,options);
+		var autocompleteTo = new google.maps.places.Autocomplete(toPlace,options);
+		
+		google.maps.event.addListener(autocompleteFrom, 'place_changed', function(){
+			fromPlace=autocompleteFrom.getPlace();			
+			if(fromMarker!=null)
+			{
+				fromMarker.setPosition(fromPlace.geometry.location);
+			}
+			else
+				fromMarker = new google.maps.Marker({position:fromPlace.geometry.location,draggable : false,map : myMap,icon: start});
+			
+			mapBounds.extend(fromPlace.geometry.location);
+			myMap.fitBounds(mapBounds);
+			myMap.setZoom(12);
+			$("#from-hidden").val(fromPlace.geometry.location);
+		});
+		
+		google.maps.event.addListener(autocompleteTo, 'place_changed',function(){
+			toPlace=autocompleteTo.getPlace();
+			if(toMarker!=null)
+			{
+				toMarker.setPosition(toPlace.geometry.location);
+			}
+			else
+				toMarker = new google.maps.Marker({position:toPlace.geometry.location,draggable : false,map : myMap,icon: end});
+			
+			mapBounds.extend(toPlace.geometry.location);
+			myMap.fitBounds(mapBounds);
+			
+			$("#to-hidden").val(toPlace.geometry.location);
+			
+		});
+		
+				
+		//Date field here
+		var whenAttached=0;
+		$("#when").focus(function(){
+			if(whenAttached==0)
+			{
+				$("#when").datepicker();
+				whenAttached=1;
+				$("#when").focus();
+			}
+			
+		});
+		
+	
+		//Clear Cached values
+		$("#from-hidden").val('');
+		$("#to-hidden").val('');
+		
+		
+		$(":button#searchRide").click(function(){show_searchResults();});
+
+		load_init_data();
+
+	});
+
+</script>
+
+<style>
+#google_map {
+	margin-top: 45px;
+	width: 350px;
+	height: 350px;
+}
+</style>
+</head>
+<body>
+	<div class="topbar" data-dropdown="dropdown">
+		<div class="fill">
+			<div class="container">
+				<a class="brand" href="#"><font style="color: #FFFFFF;">Pool</font><span
+					class="logo_colour">4</span>U.in </a>
+				<div class="pull-right">
+					<ul class="nav">
+						<li><a href="#">Search Ride</a></li>
+						<li class="active"><a href="#about">Post Ride</a></li>
+						<li class="dropdown"><a class="dropdown-toggle" href="#">My
+								Account</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Secondary link</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li class="divider"></li>
+								<li><a> <!-- data-controls-modal="logout-modal" data-keyboard="true"
+									data-backdrop="true" -->Logout</a></li>
+							</ul></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="container-fluid" id="sp_search_sec">
+			<div class="page-header">
+				<h1>
+					Search a Ride <small>Fill in your ride details</small>
+				</h1>
+			</div>
+			<div class="sidebar_custom_index">
+				<section>
+					<form>
+						<fieldset>
+							<label for="xlInput">From</label>
+							<div class="input">
+								<input id="from" class="xlarge-custom" type="text" size="10"
+									name="from" value="" placeholder="Starting Destination" /> <input
+									id="from-hidden" name="from-hidden" type="hidden" value="" /><br>
+							</div>
+
+							<label for="password">To</label>
+							<div class="input">
+								<input id="to" class="xlarge-custom" type="text" size="10"
+									name="to" value="" placeholder="Ending Destination" /> <input
+									id="to-hidden" name="to-hidden" type="hidden" value="" /><br>
+							</div>
+
+
+							<label for="when">When</label>
+							<div class="input">
+								<input id="when" type="text" class="small-custom">&nbsp;@&nbsp;
+								<input id="when-time" type="text" class="mini-custom"> <span
+									class="help-inline error"> <input id="return-chkbox"
+									type="checkbox"><span>Return ride </span> </span>
+							</div>
+
+							<label for="filters" id="poolFilters-label"></label>
+							<div class="input" id="poolFilters"></div>
+							<div class="actions-custom">
+								<button id="searchRide" class="btn large-custom-login" type="button">Search Ride</button>
+							</div>
+
+						</fieldset>
+					</form>
+				</section>
+			</div>
+			<div class="content_custom_index">
+				<div id="google_map"></div>
+			</div>
+		</div>
+		<div class="container" id="sp_result_sec">
+			<!-- <div class="page-header">
+				<h1>
+					Ride Details <small>Select your ride</small>
+				</h1>
+			</div>
+			<div class="container">
+				<div class="alert-message success">Search Results</div>
+				<div class="well">
+					<div class="row">
+						<div class="span12">
+							<strong class="custom">Chafekar Chowk Bus Stop, Pimpri
+								Chinchwad,Maharashtra, India</strong> <em class="custom-sep">-</em> <strong
+								class="custom">Chafekar Chowk Bus Stop, Pimpri
+								Chinchwad, Maharashtra, India</strong>
+							<hr class="custom">
+						</div>
+						<div class="span2">
+							<p class="label pull-left warning">
+								<font style="font-size: 15px;">120 </font>Rs. / Seat
+							</p>
+						</div>
+						<div class="span2">
+							<p class="label success pull-left">
+								&nbsp;<font style="font-size: 15px;">3</font> Seats Left
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="span16">
+							<div class="row">
+								<div class="span12">
+									<div class="row">
+										<div class="span12">Departs : 12-12-2011 @ 6:00PM</div>
+										<div class="span6">Returns : 12-12-2011 @ 6:00PM</div>
+									</div>
+								</div>
+								<div class="span2">
+									<a class="btn" type="button">More Info</a>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+					<hr class="custom">
+					<div class="row">
+						<div class="span6">Features : Women Only, Non-Smoking</div>
+						<div class="span6">Posted by:Shreyas Patil</div>
+						<div class="span4">Working For : Infosys Technologies</div>
+					</div>
+				</div>
+			</div>
+			<div class="pagination pull-right">
+				<ul>
+					<li class="active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+				</ul>
+			</div> -->
+		</div>
+	</div>
+
+	<footer class="footer"> </footer>
+</body>
+</html>

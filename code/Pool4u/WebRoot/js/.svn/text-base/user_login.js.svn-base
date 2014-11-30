@@ -1,0 +1,122 @@
+/**
+ * 
+ */
+
+	
+	// Function to show authorization box
+	function show_auth(caller){
+		$(":button#"+caller).hide();
+		$("#"+caller+"_div :input").attr('disabled',true);
+		$("#authorization_box_"+caller).show();
+		$("#authorization_box_"+caller+" :input").attr('disabled',false);
+	}
+	
+
+	// Function to do user login
+	function user_login(){
+		$.ajax({
+			url : "/Pool4u/LoginServlet",
+			cache : false,
+			dataType : "JSON",
+			type : "POST",
+			data : "option=5",
+			success : function(result) {
+				var parsedResponse = $.parseJSON(result);
+				if (parsedResponse.status == "SUCCESS") {
+					window.location = parsedResponse.url;
+				} else {
+					var errorCode = parsedResponse.errorCode;
+					// UserName does not exists. Show register screen
+					if (errorCode == 1) {
+						$("#login_div #error_message").html("User does not exist. Please Register<br/>");
+					}
+					// Password is wrong. 
+					else if (errorCode == 2) {
+						$("#login_div #error_message").html("Invalid Password<br/>");
+					}
+					// User not verified
+					else if (errorCode == 3) {
+						$("#login_div #error_message").html("User not confirmed. Enter confirmation code below<br/>");
+						show_auth("login");
+					}
+				}
+			}
+		});
+	}
+	
+	// Function for user registration
+	function user_register() {
+		show_auth("register");
+	}
+	
+	// Hide the login div
+	function hide_login(){
+		$("#login_div").hide();
+		$("#register_div").show();
+		$("#register_div :input").attr('disabled',false);
+		$("#authorization_box_register").hide();
+		$(":button#register").show();
+		// Load the company list for register box
+		$.ajax({
+			cache : false,
+			type : "GET",
+			dataType : 'JSON',
+			url : "/Pool4u/CompanyList",
+			success : function(result) {
+				var option = "";
+				var parsedResponse = $.parseJSON(result);
+				var companyList = parsedResponse.company;
+				for ( var i = 0; i < companyList.length; i++) {
+					option += '<option value="'+  companyList[i].id + '">'
+							+ companyList[i].name + '</option>';
+				}
+				$("select#company").html(option);
+			}
+		});		
+	}
+	
+	// Hide the register div
+	function hide_register(){
+		$("#register_div").hide();
+		$("#login_div").show();
+		$("#login_div :input").attr('disabled',false);
+		$("#authorization_box_login").hide();
+		$(":button#login").show();
+		$("#user_error").html("");
+		$("#pass_error").html("");
+	}
+	
+	// Function to authorize code
+	function authorize_code(caller){
+		var divName="";
+		// To decide the elements
+		if(caller=="register")
+		{
+			divName="#authorization_box_register ";
+		}
+		else
+		{
+			divName="#authorization_box_login ";
+		}
+		
+		var auth_data="auth_data="+$(divName+":text").val();
+		$.ajax({
+			cache:false,
+			url: "/Pool4u/AuthorizeRegister",
+			data: auth_data,
+			dataType: "JSON",
+			type:"POST",
+			success:function(result){
+				var parsedResponse = $.parseJSON(result);
+				if(parsedResponse.status == "SUCCESS")
+				{
+					window.location = parsedResponse.url;
+				}
+				else
+				{
+					$(divName+"#auth_error").html("Code does not match. Retry");
+				}
+			}
+		});
+		return false;
+	}

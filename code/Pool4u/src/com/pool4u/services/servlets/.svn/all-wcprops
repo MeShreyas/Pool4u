@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/pool4u/!svn/ver/3/trunk/baseline/src/com/pool4u/services/servlets
+END
+UserProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/pool4u/!svn/ver/6/trunk/baseline/src/com/pool4u/services/servlets/UserProfile.java
+END
+LoginServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/pool4u/!svn/ver/7/trunk/baseline/src/com/pool4u/services/servlets/LoginServlet.java
+END
+AuthorizeRegister.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/pool4u/!svn/ver/7/trunk/baseline/src/com/pool4u/services/servlets/AuthorizeRegister.java
+END
+CompanyList.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/pool4u/!svn/ver/7/trunk/baseline/src/com/pool4u/services/servlets/CompanyList.java
+END
+Recommendation.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/pool4u/!svn/ver/7/trunk/baseline/src/com/pool4u/services/servlets/Recommendation.java
+END
+CodeFillerServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/pool4u/!svn/ver/8/trunk/baseline/src/com/pool4u/services/servlets/CodeFillerServlet.java
+END
+UITest.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/pool4u/!svn/ver/7/trunk/baseline/src/com/pool4u/services/servlets/UITest.java
+END
+UserAccount.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/pool4u/!svn/ver/4/trunk/baseline/src/com/pool4u/services/servlets/UserAccount.java
+END
